@@ -1,5 +1,5 @@
 //
-//  CryptosListRouter.swift
+//  CoinListRouter.swift
 //  chh-test-ios
 //
 //  Created by André Caçador on 19/6/18.
@@ -9,11 +9,11 @@
 import Foundation
 import UIKit
 
-class CryptosListRouter {
+class CoinListRouter {
     
-    let container: UIViewController
+    let container: Navigator
     
-    init(container: UIViewController) {
+    init(container: Navigator) {
         self.container = container
     }
     

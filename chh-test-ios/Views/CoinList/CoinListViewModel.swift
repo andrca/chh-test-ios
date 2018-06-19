@@ -23,39 +23,58 @@ class CoinListViewModel: UIRefresherProtocol {
     
     let refreshUISignal = MutableProperty<Bool>(false)
     var isLoading = MutableProperty<Bool>(false)
-    let numberCryptos = MutableProperty<Int>(0)
-    let router: CryptosListRouter
+    let numberCoins = MutableProperty<Int>(0)
+    let router: CoinListRouter
     
-    init(router: CryptosListRouter) {
+    // MARK: Private properties
+    
+    private let coinList = MutableProperty<[Coin]>([Coin]())
+    private let coinRepository = CoinRepository()
+    
+    init(router: CoinListRouter) {
         self.router = router
         
         setupBindings()
-        retrieveCryptos()
+        retrieveCoinList()
     }
     
     // MARK: Public methods
     
-    func cellViewModelForIndexPath(_ indexPath: IndexPath) -> AppointmentCellViewModel? {
-        let appointment = appointmentAt(indexPath)
-        return AppointmentCellViewModel(appointment!)
+    func cellViewModelForIndexPath(_ indexPath: IndexPath) -> CoinListCellViewModel? {
+        let coin = coinAt(indexPath)
+        return CoinListCellViewModel(coin!)
     }
     
-    func cellImageForIndexPath(_ indexPath: IndexPath) -> UIImage? {
-        let appointment = appointmentAt(indexPath)
-        return professionalImages.value[appointment!.professional.ID]
-    }
-    
-    func appointmentAt(_ indexPath: IndexPath) -> Appointment? {
-        guard let appointment = appointmentOrderedList.value[indexPath.row] as Appointment? else {
-            logError(logText: "[\(type(of: self))] \(#function) Out range (\(indexPath.row)) of category with \(self.appointmentList.value.count) element/s")
+    func coinAt(_ indexPath: IndexPath) -> Coin? {
+        guard let coin = coinList.value[indexPath.row] as Coin? else {
+            print("[\(type(of: self))] \(#function) Out range (\(indexPath.row)) of coin with \(self.coinList.value.count) element/s")
             
             return nil
         }
         
-        return appointment
+        return coin
     }
     
     func refreshData() {
-        retrieveAppointments()
+        retrieveCoinList()
+    }
+    
+    // MARK: Private methods
+    
+    private func retrieveCoinList() {
+        self.isLoading.value = true
+        
+        self.coinRepository.list(page: 0).onSuccess { (coins) in
+            self.coinList.value = coins!
+            }.onFailure { (error) in
+                print("\(error)")
+            }.onComplete { _ in
+                self.isLoading.value = false
+        }
+    }
+    
+    private func setupBindings() {
+        refreshUISignal <~ coinList.producer.map{ _ -> Bool in true }
+        numberCoins <~ coinList.producer.map { $0.count }
     }
 }

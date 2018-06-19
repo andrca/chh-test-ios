@@ -7,3 +7,27 @@
 //
 
 import Foundation
+import UIKit
+import ReactiveSwift
+
+class CoinListCell: BaseCollectionViewCell {
+    
+    //MARK: Public properties
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var currentPriceLabel: UILabel!
+    @IBOutlet weak var percentageChange: UILabel!
+    
+    var viewModel: CoinListCellViewModel? {
+        didSet {
+            setupBindings()
+        }
+    }
+    
+    private func setupBindings() {
+        nameLabel.rac_text <~ viewModel!.name
+        currentPriceLabel.rac_text <~ viewModel!.currentPrice
+        percentageChange.rac_text <~ viewModel!.percentageChange
+    }
+    
+}

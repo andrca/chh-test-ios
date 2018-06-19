@@ -1,18 +1,65 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-        </view>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="IHd-gY-emu" userLabel="Coin List Cell" customClass="CoinListCell" customModule="chh_test_ios" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="360" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="360" height="50"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ppl-eO-Q7K" userLabel="Coin Name Label">
+                        <rect key="frame" x="10" y="0.0" width="42" height="25"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJy-bF-apb" userLabel="Currency Price Label">
+                        <rect key="frame" x="308" y="2" width="42" height="25"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6DI-kp-rlW" userLabel="Percentage Change Label">
+                        <rect key="frame" x="308" y="24" width="42" height="26"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="Ppl-eO-Q7K" firstAttribute="leading" secondItem="6Zv-pz-3RT" secondAttribute="leading" constant="10" id="BFs-rn-6RQ"/>
+                <constraint firstItem="Ppl-eO-Q7K" firstAttribute="height" secondItem="IHd-gY-emu" secondAttribute="height" multiplier="0.5" id="XnG-fS-sAD"/>
+                <constraint firstItem="HJy-bF-apb" firstAttribute="top" secondItem="6Zv-pz-3RT" secondAttribute="top" constant="2" id="a5N-1v-f3O"/>
+                <constraint firstItem="6Zv-pz-3RT" firstAttribute="bottom" secondItem="6DI-kp-rlW" secondAttribute="bottom" id="aEf-Jv-a0F"/>
+                <constraint firstItem="6DI-kp-rlW" firstAttribute="height" secondItem="IHd-gY-emu" secondAttribute="height" multiplier="0.5" constant="1" id="cDy-9F-diE"/>
+                <constraint firstItem="Ppl-eO-Q7K" firstAttribute="top" secondItem="6Zv-pz-3RT" secondAttribute="top" id="d5l-bY-0Pc"/>
+                <constraint firstItem="6Zv-pz-3RT" firstAttribute="trailing" secondItem="6DI-kp-rlW" secondAttribute="trailing" constant="10" id="ecY-bq-BZx"/>
+                <constraint firstItem="6Zv-pz-3RT" firstAttribute="trailing" secondItem="HJy-bF-apb" secondAttribute="trailing" constant="10" id="kED-XB-MQF"/>
+                <constraint firstItem="HJy-bF-apb" firstAttribute="height" secondItem="IHd-gY-emu" secondAttribute="height" multiplier="0.5" id="wTy-Cw-NA9"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="6Zv-pz-3RT"/>
+            <size key="customSize" width="360" height="50"/>
+            <connections>
+                <outlet property="currentPriceLabel" destination="HJy-bF-apb" id="nAD-Dq-Wjs"/>
+                <outlet property="nameLabel" destination="Ppl-eO-Q7K" id="2ku-w8-WNd"/>
+                <outlet property="percentageChange" destination="6DI-kp-rlW" id="lW0-UR-1G4"/>
+            </connections>
+            <point key="canvasLocation" x="-91" y="8"/>
+        </collectionViewCell>
     </objects>
 </document>
