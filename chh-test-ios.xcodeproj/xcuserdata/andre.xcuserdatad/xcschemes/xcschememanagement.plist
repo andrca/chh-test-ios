@@ -4,10 +4,28 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>chh-test-ios.xcscheme</key>
+		<key>chh-test-ios.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>9</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>65FA8BDC20D9132000A6259B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>65FA8BF020D9132200A6259B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>65FA8BFB20D9132200A6259B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
