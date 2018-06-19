@@ -7,3 +7,20 @@
 //
 
 import Foundation
+import UIKit
+
+class DefaultNavigationController: UINavigationController {
+    
+    init() {
+        super.init(navigationBarClass: DefaultNavigationBar.self, toolbarClass: nil)
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+}
