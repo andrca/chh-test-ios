@@ -1,5 +1,5 @@
 //
-//  RootViewController.swift
+//  RootWireFrame.swift
 //  chh-test-ios
 //
 //  Created by André Caçador on 19/6/18.
@@ -9,25 +9,19 @@
 import Foundation
 import UIKit
 
-class RootWireFrame: UIViewController, UIViewControllerInstaller {
+class RootWireframe {
     
-    var rootTabBarController: KyndaTabBarController?
+    var navigationController: UIViewController?
 
     init() {
-        
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.chh_installChildViewController(current)
+        setupRootNavigationController()
     }
     
     // MARK: Private
+    
+    private func setupRootNavigationController() {
+        navigationController = coinListNavigationController()
+    }
     
     private func coinListNavigationController() -> UIViewController {
         let container = DefaultContainerController()
