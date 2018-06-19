@@ -9,6 +9,20 @@
 -->
 <plist version="1.0">
     <dict>
-    
+        <key>Test</key>
+        <dict>
+            <key>APIEndpoint</key>
+            <string>https://test.cryptojet.io</string>
+        </dict>
+        <key>Release</key>
+        <dict>
+            <key>APIEndpoint</key>
+            <string>https://pro.cryptojet.io</string>
+        </dict>
+        <key>Debug</key>
+        <dict>
+            <key>APIEndpoint</key>
+            <string>localhost:8080/</string>
+        </dict>
     </dict>
 </plist>
