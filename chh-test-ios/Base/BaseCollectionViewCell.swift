@@ -7,3 +7,30 @@
 //
 
 import Foundation
+import UIKit
+
+class BaseCollectionViewCell: UICollectionViewCell {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        setupView()
+    }
+    
+    class func preferredReuseIdentifier() -> String {
+        return String(describing: self)
+    }
+    
+    func setupView() {}
+    
+}

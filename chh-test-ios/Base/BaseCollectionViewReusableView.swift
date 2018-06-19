@@ -7,3 +7,12 @@
 //
 
 import Foundation
+import UIKit
+
+class BaseCollectionReusableView: UICollectionReusableView {
+    
+    class func preferredReuseIdentifier() -> String {
+        return String(describing: self)
+    }
+    
+}
