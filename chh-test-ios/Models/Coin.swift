@@ -25,30 +25,36 @@ class Coin: Object, Mappable {
     @objc dynamic var percentChangeOneH: Float = 0
     @objc dynamic var percentChangeTwentyFourH: Float = 0
     @objc dynamic var percentChangeSevenDays: Float = 0
-    @objc dynamic var createdAt = Data()
-    @objc dynamic var updatedAt = Data()
+    @objc dynamic var createdAt = Date()
+    @objc dynamic var updatedAt = Date()
     
     required convenience init?(map: Map) {
         self.init()
     }
     
     func mapping(map: Map) {
+        let transformDate = TransformOf<Date, String>(fromJSON: { (value: String?) -> Date? in
+            return DateFormatter.iso8601.date(from: value!)
+        }, toJSON: { (value: Date?) -> String? in
+            return value!.iso8601
+        })
+        
         id                       <- map["id"]
         name                     <- map["name"]
         symbol                   <- map["symbol"]
         logo                     <- map["logo"]
         rank                     <- map["rank"]
-        priceUsd                 <- (map["price_usd"], JSONStringToIntTransform())
-        priceBtc                 <- (map["price_btc"], JSONStringToIntTransform())
+        priceUsd                 <- (map["price_usd"], JSONStringToFloatTransform())
+        priceBtc                 <- (map["price_btc"], JSONStringToFloatTransform())
         twentyFourHVolumeUsd     <- map["24h_volume_usd"]
         marketCapUsd             <- map["market_cap_usd"]
         availableSupply          <- map["available_supply"]
         totalSupply              <- map["total_supply"]
-        percentChangeOneH        <- (map["percent_change_1h"], JSONStringToIntTransform())
-        percentChangeTwentyFourH <- (map["percent_change_24h"], JSONStringToIntTransform())
-        percentChangeSevenDays   <- (map["percent_change_7d"], JSONStringToIntTransform())
-        createdAt                <- map["created_at"]
-        updatedAt                <- map["updated_at"]
+        percentChangeOneH        <- (map["percent_change_1h"], JSONStringToFloatTransform())
+        percentChangeTwentyFourH <- (map["percent_change_24h"], JSONStringToFloatTransform())
+        percentChangeSevenDays   <- (map["percent_change_7d"], JSONStringToFloatTransform())
+        createdAt                <- (map["created_at"], transformDate)
+        updatedAt                <- (map["updated_at"], transformDate)
     }
 
     override static func primaryKey() -> String? {
@@ -57,10 +63,7 @@ class Coin: Object, Mappable {
     
 }
 
-class JSONStringToIntTransform: TransformType {
-    
-    typealias Object = Float
-    typealias JSON = String
+class JSONStringToFloatTransform: TransformType {
     
     init() {}
     func transformFromJSON(_ value: Any?) -> Float? {
