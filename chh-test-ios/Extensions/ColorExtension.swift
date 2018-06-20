@@ -21,6 +21,6 @@ import UIKit
 extension UIColor {
     
     static func chh_primaryColor() -> UIColor {
-        return UIColor.yellow
+        return UIColor.black
     }
 }
