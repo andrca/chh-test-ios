@@ -30,6 +30,15 @@
 		6561443820D9B0FB00FC9615 /* Historical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561443720D9B0FB00FC9615 /* Historical.swift */; };
 		6561443A20D9B26800FC9615 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561443920D9B26800FC9615 /* DateFormatterExtension.swift */; };
 		6561443C20D9B37800FC9615 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561443B20D9B37800FC9615 /* DateExtension.swift */; };
+		6561443F20DA85F300FC9615 /* PortfolioListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561443E20DA85F300FC9615 /* PortfolioListRouter.swift */; };
+		6561444120DA861B00FC9615 /* PortfolioListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561444020DA861B00FC9615 /* PortfolioListViewModel.swift */; };
+		6561444320DA865B00FC9615 /* PortfolioListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561444220DA865B00FC9615 /* PortfolioListViewController.swift */; };
+		6561444520DA868600FC9615 /* PortfolioListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6561444420DA868600FC9615 /* PortfolioListViewController.xib */; };
+		6561444920DA946700FC9615 /* Trade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561444820DA946700FC9615 /* Trade.swift */; };
+		6561444B20DA997E00FC9615 /* GroupedTrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561444A20DA997E00FC9615 /* GroupedTrades.swift */; };
+		6561444E20DA9C2000FC9615 /* GroupedTradesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561444D20DA9C2000FC9615 /* GroupedTradesCell.swift */; };
+		6561445020DA9C2E00FC9615 /* GroupedTradesCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561444F20DA9C2E00FC9615 /* GroupedTradesCellViewModel.swift */; };
+		6561445220DAA8C800FC9615 /* GroupedTradesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6561445120DAA8C800FC9615 /* GroupedTradesCell.xib */; };
 		65FA8BE120D9132000A6259B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FA8BE020D9132000A6259B /* AppDelegate.swift */; };
 		65FA8BE820D9132200A6259B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65FA8BE720D9132200A6259B /* Assets.xcassets */; };
 		65FA8BEB20D9132200A6259B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65FA8BE920D9132200A6259B /* LaunchScreen.storyboard */; };
@@ -95,6 +104,15 @@
 		6561443720D9B0FB00FC9615 /* Historical.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Historical.swift; sourceTree = "<group>"; };
 		6561443920D9B26800FC9615 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		6561443B20D9B37800FC9615 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		6561443E20DA85F300FC9615 /* PortfolioListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioListRouter.swift; sourceTree = "<group>"; };
+		6561444020DA861B00FC9615 /* PortfolioListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioListViewModel.swift; sourceTree = "<group>"; };
+		6561444220DA865B00FC9615 /* PortfolioListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioListViewController.swift; sourceTree = "<group>"; };
+		6561444420DA868600FC9615 /* PortfolioListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PortfolioListViewController.xib; sourceTree = "<group>"; };
+		6561444820DA946700FC9615 /* Trade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade.swift; sourceTree = "<group>"; };
+		6561444A20DA997E00FC9615 /* GroupedTrades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedTrades.swift; sourceTree = "<group>"; };
+		6561444D20DA9C2000FC9615 /* GroupedTradesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedTradesCell.swift; sourceTree = "<group>"; };
+		6561444F20DA9C2E00FC9615 /* GroupedTradesCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedTradesCellViewModel.swift; sourceTree = "<group>"; };
+		6561445120DAA8C800FC9615 /* GroupedTradesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupedTradesCell.xib; sourceTree = "<group>"; };
 		65FA8BDD20D9132000A6259B /* chh-test-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "chh-test-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65FA8BE020D9132000A6259B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65FA8BE720D9132200A6259B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -247,6 +265,28 @@
 			path = CoinDetail;
 			sourceTree = "<group>";
 		};
+		6561443D20DA85AE00FC9615 /* PortfolioList */ = {
+			isa = PBXGroup;
+			children = (
+				6561443E20DA85F300FC9615 /* PortfolioListRouter.swift */,
+				6561444020DA861B00FC9615 /* PortfolioListViewModel.swift */,
+				6561444220DA865B00FC9615 /* PortfolioListViewController.swift */,
+				6561444420DA868600FC9615 /* PortfolioListViewController.xib */,
+				6561444C20DA9C1000FC9615 /* Cells */,
+			);
+			path = PortfolioList;
+			sourceTree = "<group>";
+		};
+		6561444C20DA9C1000FC9615 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				6561444F20DA9C2E00FC9615 /* GroupedTradesCellViewModel.swift */,
+				6561444D20DA9C2000FC9615 /* GroupedTradesCell.swift */,
+				6561445120DAA8C800FC9615 /* GroupedTradesCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		65FA8BD420D9132000A6259B = {
 			isa = PBXGroup;
 			children = (
@@ -313,6 +353,8 @@
 			children = (
 				65FA8C2820D9446E00A6259B /* Coin.swift */,
 				6561443720D9B0FB00FC9615 /* Historical.swift */,
+				6561444820DA946700FC9615 /* Trade.swift */,
+				6561444A20DA997E00FC9615 /* GroupedTrades.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -323,6 +365,7 @@
 				6561440920D968AE00FC9615 /* RootWireframe.swift */,
 				65FA8C2C20D95DCE00A6259B /* CoinList */,
 				6561442E20D9A7FA00FC9615 /* CoinDetail */,
+				6561443D20DA85AE00FC9615 /* PortfolioList */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -495,7 +538,9 @@
 				65FA8C1D20D93EA300A6259B /* Configuration.plist in Resources */,
 				65FA8C3220D95E8A00A6259B /* CoinListViewController.xib in Resources */,
 				6561443620D9A8CA00FC9615 /* CoinDetailViewController.xib in Resources */,
+				6561444520DA868600FC9615 /* PortfolioListViewController.xib in Resources */,
 				65FA8BE820D9132200A6259B /* Assets.xcassets in Resources */,
+				6561445220DAA8C800FC9615 /* GroupedTradesCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,12 +658,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6561444920DA946700FC9615 /* Trade.swift in Sources */,
 				6561442B20D997A400FC9615 /* DefaultNavigationBar.swift in Sources */,
 				6561442D20D997DA00FC9615 /* ColorExtension.swift in Sources */,
 				65FA8C2920D9446E00A6259B /* Coin.swift in Sources */,
+				6561444120DA861B00FC9615 /* PortfolioListViewModel.swift in Sources */,
 				6561441620D9763900FC9615 /* FloatExtension.swift in Sources */,
 				65FA8C2B20D947D100A6259B /* CoinRepository.swift in Sources */,
 				6561443820D9B0FB00FC9615 /* Historical.swift in Sources */,
+				6561444E20DA9C2000FC9615 /* GroupedTradesCell.swift in Sources */,
+				6561443F20DA85F300FC9615 /* PortfolioListRouter.swift in Sources */,
 				6561443020D9A82800FC9615 /* CoinDetailRouter.swift in Sources */,
 				6561440F20D96B3400FC9615 /* ViewControllerExtension.swift in Sources */,
 				6561441420D974A900FC9615 /* CoinListCellViewModel.swift in Sources */,
@@ -630,6 +679,7 @@
 				6561443220D9A85900FC9615 /* CoinDetailViewModel.swift in Sources */,
 				6561440A20D968AE00FC9615 /* RootWireframe.swift in Sources */,
 				65FA8C1520D936A900A6259B /* NetworkService.swift in Sources */,
+				6561445020DA9C2E00FC9615 /* GroupedTradesCellViewModel.swift in Sources */,
 				65FA8C1F20D93F6800A6259B /* Configuration.swift in Sources */,
 				6561441F20D97B5E00FC9615 /* BaseCollectionViewReusableView.swift in Sources */,
 				6561442720D996EE00FC9615 /* DefaultContainerController.swift in Sources */,
@@ -637,6 +687,8 @@
 				6561441D20D97B2800FC9615 /* CollectionViewExtension.swift in Sources */,
 				6561441920D9797000FC9615 /* BaseCollectionViewCell.swift in Sources */,
 				65FA8C1720D936BA00A6259B /* APIRequest.swift in Sources */,
+				6561444320DA865B00FC9615 /* PortfolioListViewController.swift in Sources */,
+				6561444B20DA997E00FC9615 /* GroupedTrades.swift in Sources */,
 				6561443420D9A8A600FC9615 /* CoinDetailViewController.swift in Sources */,
 				65FA8C3420D960E300A6259B /* CoinListRouter.swift in Sources */,
 				65FA8C1B20D936EA00A6259B /* AlamofireNetworkService.swift in Sources */,
