@@ -81,8 +81,7 @@ extension CoinListViewController: UICollectionViewDataSource {
 extension CoinListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // let coin = viewModel.coinAt(indexPath as IndexPath)
-        // self.viewModel.navigateToCoinDetails(coin!)
+        self.viewModel.didSelectCoin(at: indexPath)
     }
     
 }

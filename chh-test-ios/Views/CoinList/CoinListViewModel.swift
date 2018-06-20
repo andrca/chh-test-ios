@@ -59,13 +59,24 @@ class CoinListViewModel: UIRefresherProtocol {
         retrieveCoinList()
     }
     
+    // MARK: Actions
+    
+    func didSelectCoin(at indexPath: IndexPath) {
+        guard let coin = self.coinAt(indexPath as IndexPath) as Coin? else {
+            return
+        }
+        
+        self.router.navigateToCoinDetails(coin: coin)
+    }
+    
     // MARK: Private methods
     
     private func retrieveCoinList() {
         self.isLoading.value = true
         
         self.coinRepository.list(page: 0).onSuccess { (coins) in
-            self.coinList.value = coins!
+            self.coinList.value = coins!.sorted(by: { $0.rank < $1.rank })
+            
             }.onFailure { (error) in
                 print("\(error)")
             }.onComplete { _ in
