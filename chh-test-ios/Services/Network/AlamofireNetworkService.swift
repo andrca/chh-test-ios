@@ -69,6 +69,9 @@ class AlamofireNetworkService: NetworkService {
                 promise.success(networkResponse)
             case .failure(let error):
                 let responseError = error as NSError
+                if responseError.code == NSURLErrorNotConnectedToInternet {
+                    print("No Network Connection Available")
+                }
                 promise.failure(responseError)
             }
         }
