@@ -29,13 +29,43 @@ class CoinRepository {
             let coinsRootNode = json[node] as! JSON
             let coinsJSONData = coinsRootNode["data"] as! [JSON]
             let coins = Mapper<Coin>().mapArray(JSONObject: coinsJSONData)
-            self.saveCoinListToStore(coins!)
-            
+            self.saveOrUpdateCoinListInStore(coins!)
             responsePromise.success(coins)
         }).onFailure { (error) in
             let store = self.retrieveCoinListFromStore()
             guard let error = store.error else {
                 responsePromise.success(store.coinList)
+                return
+            }
+            
+            responsePromise.failure(error)
+        }
+        
+        return responsePromise.future
+    }
+    
+    func get(coinId: Int) -> Future<Coin?, NSError> {
+        let coinAPI = CoinAPI.get(coinId: coinId)
+        
+        let request = APIRequest(resource: coinAPI)
+        let requestFuture = self.apiDatasource.processRequest(request)
+        let responsePromise = Promise<Coin?, NSError>()
+        
+        requestFuture.onSuccess(callback: { (json) in
+            let node = request.resource.rootNode
+            let coinJSONData = json[node] as! JSON
+            let coin = Mapper<Coin>().map(JSONObject: coinJSONData)
+            self.saveOrUpdateCoinInStore(coin!)
+            responsePromise.success(coin)
+        }).onFailure { (error) in
+            let store = self.retrieveCoinFromStore(coinId)
+            if let coin = store.coin {
+                responsePromise.success(coin)
+                return
+            }
+            
+            if let err = store.error {
+                responsePromise.failure(err)
                 return
             }
             
@@ -59,8 +89,7 @@ class CoinRepository {
             historicalList?.forEach({ (h) in
                 h.coinId = coinId
             })
-            self.saveHistoricalListToStore(coinId: coinId, historicalList: historicalList!)
-
+            self.saveOrUpdateHistoricalListInStore(coinId: coinId, historicalList: historicalList!)
             responsePromise.success(historicalList)
         }).onFailure { (error) in
             let store = self.retrieveHistoricalListFromStore(coinId: coinId)
@@ -75,20 +104,97 @@ class CoinRepository {
         return responsePromise.future
     }
     
+    func portfolio() -> Future<[GroupedTrades]?, NSError> {
+        let coinAPI = CoinAPI.portfolio()
+        
+        let request = APIRequest(resource: coinAPI)
+        let requestFuture = self.apiDatasource.processRequest(request)
+        let responsePromise = Promise<[GroupedTrades]?, NSError>()
+        
+        requestFuture.onSuccess(callback: { (json) in
+            let node = request.resource.rootNode
+            let groupedTradesJSONData = json[node] as! [JSON]
+            let groupedTrades = Mapper<GroupedTrades>().mapArray(JSONObject: groupedTradesJSONData)
+            
+            var coinSequence: [Future<JSON, NSError>] = []
+            groupedTrades?.forEach({ gT in
+                let coinAPI = CoinAPI.get(coinId: gT.coinId)
+                let request = APIRequest(resource: coinAPI)
+                let requestFuture = self.apiDatasource.processRequest(request)
+                coinSequence.append(requestFuture)
+            })
+            
+            coinSequence.sequence().onSuccess { results in
+                let coinsJSONData = results.flatMap({ json -> [JSON] in
+                    let coinJSONData = json["coin"] as! JSON
+                    return [coinJSONData]
+                })
+    
+                let coins = Mapper<Coin>().mapArray(JSONArray: coinsJSONData)
+                
+                groupedTrades?.forEach({ gt in
+                    do {
+                        let realm = try Realm()
+                        try realm.write {
+                            gt.coin = coins.filter { $0.id == gt.coinId }.first
+                        }
+                    } catch let error as NSError {
+                        print("\(error)")
+                    }
+                })
+                self.saveOrUpdateGroupedTradesInStore(groupedTrades!)
+                responsePromise.success(groupedTrades)
+            }
+            
+        }).onFailure { (error) in
+            let store = self.retrieveGroupedTradesFromStore()
+            guard let error = store.error else {
+                responsePromise.success(store.groupedTrades)
+                return
+            }
+            
+            responsePromise.failure(error)
+        }
+        
+        return responsePromise.future
+    }
+    
     // MARK: Private methods
+    
+    private func retrieveCoinFromStore(_ id: Int) -> (coin: Coin?, error: NSError?) {
+        do {
+            let realm = try Realm()
+            let coin = realm.objects(Coin.self).filter("id = \(id)").first
+            return (coin, nil)
+        } catch let error as NSError {
+            print("\(error)")
+            return (nil, error)
+        }
+    }
+    
+    private func saveOrUpdateCoinInStore(_ coin: Coin) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.add(coin, update: true)
+            }
+        } catch let error as NSError {
+            print("\(error)")
+        }
+    }
     
     private func retrieveCoinListFromStore() -> (coinList: [Coin], error: NSError?) {
         do {
             let realm = try Realm()
-            let coins = realm.objects(Coin.self)
-            return (Array(coins), nil)
+            let coins = Array(realm.objects(Coin.self))
+            return (coins, nil)
         } catch let error as NSError {
             print("\(error)")
             return ([], error)
         }
     }
     
-    private func saveCoinListToStore(_ coins: [Coin]) {
+    private func saveOrUpdateCoinListInStore(_ coins: [Coin]) {
         do {
             let realm = try Realm()
             try realm.write {
@@ -104,15 +210,15 @@ class CoinRepository {
     private func retrieveHistoricalListFromStore(coinId: Int) -> (historicalList: [Historical], error: NSError?) {
         do {
             let realm = try Realm()
-            let historical = realm.objects(Historical.self).filter("coinId = \(coinId)")
-            return (Array(historical), nil)
+            let historical = Array(realm.objects(Historical.self).filter("coinId = \(coinId)"))
+            return (historical, nil)
         } catch let error as NSError {
             print("\(error)")
             return ([], error)
         }
     }
     
-    private func saveHistoricalListToStore(coinId: Int, historicalList: [Historical]) {
+    private func saveOrUpdateHistoricalListInStore(coinId: Int, historicalList: [Historical]) {
         do {
             let realm = try Realm()
             try realm.write {
@@ -126,32 +232,61 @@ class CoinRepository {
         }
     }
     
+    private func retrieveGroupedTradesFromStore() -> (groupedTrades: [GroupedTrades], error: NSError?) {
+        do {
+            let realm = try Realm()
+            let groupedTrades = Array(realm.objects(GroupedTrades.self))
+            return (groupedTrades, nil)
+        } catch let error as NSError {
+            print("\(error)")
+            return ([], error)
+        }
+    }
+    
+    private func saveOrUpdateGroupedTradesInStore(_ groupedTrades: [GroupedTrades]) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.delete(realm.objects(GroupedTrades.self))
+                for trade in groupedTrades {
+                    realm.add(trade, update: true)
+                }
+            }
+        } catch let error as NSError {
+            print("\(error)")
+        }
+    }
+    
 }
 
 // MARK: - Coin API
 
 enum CoinAPI {
+    case get(coinId: Int)
     case list(page: Int)
     case historical(coinId: Int)
+    case portfolio()
 }
 
 extension CoinAPI: APIResource {
     
     var method: Method {
         switch self {
-        case .list:
-            return .get
-        case .historical:
+        case .get, .list, .historical, .portfolio:
             return .get
         }
     }
     
     var path: String {
         switch self {
+        case .get(let coinId):
+            return "/coins/\(coinId)"
         case .list:
             return "/coins"
         case .historical(let coinId):
             return "/coins/\(coinId)/historical"
+        case .portfolio:
+            return "/portfolio"
         }
     }
     
@@ -166,7 +301,9 @@ extension CoinAPI: APIResource {
     
     var rootNode: String {
         switch self {
-        case .list:
+        case .get:
+            return "coin"
+        case .list, .portfolio:
             return "coins"
         case .historical:
             return "historical"
