@@ -69,6 +69,10 @@ class CoinListViewModel: UIRefresherProtocol {
         self.router.navigateToCoinDetails(coin: coin)
     }
     
+    func didSelectPortfolio() {
+        self.router.navigateToPortfolio()
+    }
+    
     // MARK: Private methods
     
     private func retrieveCoinList() {

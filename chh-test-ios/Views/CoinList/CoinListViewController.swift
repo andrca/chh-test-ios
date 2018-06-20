@@ -39,6 +39,7 @@ class CoinListViewController: BaseCollectionViewController {
     
     private func setupNavigationBar() {
         self.title = "Coins"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Portfolio", style: .plain, target: self, action: #selector(portfolioTapped))
     }
     
     private func setupCollectionView() {
@@ -54,6 +55,10 @@ class CoinListViewController: BaseCollectionViewController {
             
             strongSelf.collectionView.reloadData()
         }
+    }
+    
+    @objc private func portfolioTapped(sender: AnyObject) {
+        self.viewModel.didSelectPortfolio()
     }
     
     override func refreshData() {

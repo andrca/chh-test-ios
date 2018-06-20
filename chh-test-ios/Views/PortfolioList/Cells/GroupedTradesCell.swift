@@ -1,5 +1,5 @@
 //
-//  GroupedTradeCell.swift
+//  GroupedTradesCell.swift
 //  chh-test-ios
 //
 //  Created by André Caçador on 20/6/18.
@@ -10,26 +10,24 @@ import Foundation
 import UIKit
 import ReactiveSwift
 
-class GroupedTradeCell: BaseCollectionViewCell {
+class GroupedTradesCell: BaseCollectionViewCell {
     
     //MARK: Private properties
     
-    @IBOutlet private weak var nameLabel: UILabel!
-    @IBOutlet private weak var symbolLabel: UILabel!
-    @IBOutlet private weak var currentPriceLabel: UILabel!
-    @IBOutlet private weak var percentageChange: UILabel!
+    @IBOutlet private weak var coinNameLabel: UILabel!
+    @IBOutlet private weak var amounLabel: UILabel!
+    @IBOutlet private weak var priceUsdLabel: UILabel!
     
-    var viewModel: CoinListCellViewModel? {
+    var viewModel: GroupedTradesCellViewModel? {
         didSet {
             setupBindings()
         }
     }
     
     private func setupBindings() {
-        nameLabel.rac_text <~ self.viewModel!.name
-        symbolLabel.rac_text <~ self.viewModel!.symbol
-        currentPriceLabel.rac_text <~ self.viewModel!.currentPrice
-        percentageChange.rac_text <~ self.viewModel!.percentageChange
+        coinNameLabel.rac_text <~ self.viewModel!.coinName
+        amounLabel.rac_text <~ self.viewModel!.amount
+        priceUsdLabel.rac_text <~ self.viewModel!.priceUsd
     }
     
 }

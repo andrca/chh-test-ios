@@ -24,4 +24,12 @@ class CoinListRouter {
         
         container.push(viewController: viewController, animated: true)
     }
+    
+    func navigateToPortfolio() {
+        let router = PortfolioListRouter(container: container)
+        let viewModel = PortfolioListViewModel(router: router)
+        let viewController = PortfolioListViewController(viewModel: viewModel)
+        
+        container.push(viewController: viewController, animated: true)
+    }
 }

@@ -1,5 +1,5 @@
 //
-//  PortfolioRouter.swift
+//  PortfolioListRouter.swift
 //  chh-test-ios
 //
 //  Created by André Caçador on 20/6/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PortfolioRouter {
+class PortfolioListRouter {
     
     let container: Navigator
     
