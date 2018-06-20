@@ -26,6 +26,8 @@ class CoinDetailViewController: UIViewController, ChartDelegate {
     @IBOutlet private weak var chartView: UIView!
     
     private let chart = Chart(frame: .zero)
+    private let alertController = UIAlertController(title: "Add New Trade", message: "", preferredStyle: .alert)
+    private var tradedAtDate = Date()
     
     // MARK: Lifecycle
     
@@ -64,6 +66,76 @@ class CoinDetailViewController: UIViewController, ChartDelegate {
     
     private func setupNavigationBar() {
         self.title = "Coin detail"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(newTradeTapped))
+    }
+    
+    @objc private func newTradeTapped() {
+        alertController.addAction(UIAlertAction(title: "Add", style: .default, handler: {
+            alert -> Void in
+            let amountField = self.alertController.textFields![0] as UITextField
+            let priceUsdField = self.alertController.textFields![1] as UITextField
+            let tradedAtField = self.alertController.textFields![2] as UITextField
+            let notesField = self.alertController.textFields![3] as UITextField
+            
+            if amountField.text != "", priceUsdField.text != "", tradedAtField.text != "" {
+                guard let amount = Float(amountField.text!),
+                    let priceUsd = Float(priceUsdField.text!)
+                    else {
+                        return
+                }
+                
+                self.viewModel.didAddedNewTrade(
+                    amount: amount,
+                    priceUsd: priceUsd,
+                    tradedAt: self.tradedAtDate,
+                    notes: notesField.text)
+            } else {
+                let errorAlert = UIAlertController(title: "Error", message: "Empty values", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {
+                    alert -> Void in
+                    self.present(self.alertController, animated: true, completion: nil)
+                }))
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+        }))
+        
+        alertController.addTextField(configurationHandler: { (textField) -> Void in
+            textField.placeholder = "Amount"
+            textField.textAlignment = .center
+            textField.keyboardType = .decimalPad
+        })
+        
+        alertController.addTextField(configurationHandler: { (textField) -> Void in
+            textField.placeholder = "Price USD"
+            textField.textAlignment = .center
+            textField.keyboardType = .decimalPad
+        })
+        
+        alertController.addTextField(configurationHandler: { (textField) -> Void in
+            textField.placeholder = "Traded At"
+            textField.textAlignment = .center
+            
+            let datePickerView: UIDatePicker = UIDatePicker()
+            datePickerView.datePickerMode = UIDatePickerMode.dateAndTime
+            textField.inputView = datePickerView
+            datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
+        })
+        
+        alertController.addTextField(configurationHandler: { (textField) -> Void in
+            textField.placeholder = "Notes"
+            textField.textAlignment = .center
+        })
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc private func datePickerValueChanged(sender: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.timeStyle = DateFormatter.Style.none
+        let dateTextField = self.alertController.textFields![2] as UITextField
+        tradedAtDate = sender.date
+        dateTextField.text = dateFormatter.string(from: sender.date)
     }
     
     private func setupBindings() {

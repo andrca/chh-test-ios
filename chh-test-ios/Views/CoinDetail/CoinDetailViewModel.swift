@@ -35,6 +35,25 @@ class CoinDetailViewModel {
         retrieveCoinHistorical(coin.id)
     }
     
+    // MARK: Actions
+    
+    func didAddedNewTrade(amount: Float, priceUsd: Float, tradedAt: Date, notes: String?) {
+        self.isLoading.value = true
+
+        let trade = Trade()
+        trade.coinId = self.coin.value.id
+        trade.amount = amount
+        trade.priceUsd = priceUsd
+        trade.tradedAt = tradedAt
+        trade.notes = notes
+        
+        coinRepository.newTrade(trade: trade).onFailure { (error) in
+                print("\(error)")
+            }.onComplete { _ in
+                self.isLoading.value = false
+        }
+    }
+    
     // MARK: Private methods
     
     private func retrieveCoinHistorical(_ coinId: Int) {

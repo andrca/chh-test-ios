@@ -159,6 +159,25 @@ class CoinRepository {
         return responsePromise.future
     }
     
+    func newTrade(trade: Trade) -> Future<Trade?, NSError> {
+        let coinAPI = CoinAPI.newTrade(trade: trade)
+        
+        let request = APIRequest(resource: coinAPI)
+        let requestFuture = self.apiDatasource.processRequest(request)
+        let responsePromise = Promise<Trade?, NSError>()
+        
+        requestFuture.onSuccess(callback: { (json) in
+            let node = request.resource.rootNode
+            let tradeJSONData = json[node] as! JSON
+            let trade = Mapper<Trade>().map(JSONObject: tradeJSONData)
+            responsePromise.success(trade)
+        }).onFailure { (error) in
+            responsePromise.failure(error)
+        }
+        
+        return responsePromise.future
+    }
+    
     // MARK: Private methods
     
     private func retrieveCoinFromStore(_ id: Int) -> (coin: Coin?, error: NSError?) {
@@ -266,6 +285,7 @@ enum CoinAPI {
     case list(page: Int)
     case historical(coinId: Int)
     case portfolio()
+    case newTrade(trade: Trade)
 }
 
 extension CoinAPI: APIResource {
@@ -274,6 +294,8 @@ extension CoinAPI: APIResource {
         switch self {
         case .get, .list, .historical, .portfolio:
             return .get
+        case .newTrade:
+            return .post
         }
     }
     
@@ -285,7 +307,7 @@ extension CoinAPI: APIResource {
             return "/coins"
         case .historical(let coinId):
             return "/coins/\(coinId)/historical"
-        case .portfolio:
+        case .portfolio, .newTrade:
             return "/portfolio"
         }
     }
@@ -294,6 +316,8 @@ extension CoinAPI: APIResource {
         switch self {
         case .list(let page):
             return ["page": page]
+        case .newTrade(let trade):
+            return trade.toJSON()
         default:
             return nil
         }
@@ -307,6 +331,8 @@ extension CoinAPI: APIResource {
             return "coins"
         case .historical:
             return "historical"
+        case .newTrade:
+            return "trade"
         }
     }
     
