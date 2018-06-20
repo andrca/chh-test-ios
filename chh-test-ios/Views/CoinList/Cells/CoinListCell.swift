@@ -12,11 +12,12 @@ import ReactiveSwift
 
 class CoinListCell: BaseCollectionViewCell {
     
-    //MARK: Public properties
+    //MARK: Private properties
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var currentPriceLabel: UILabel!
-    @IBOutlet weak var percentageChange: UILabel!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var symbolLabel: UILabel!
+    @IBOutlet private weak var currentPriceLabel: UILabel!
+    @IBOutlet private weak var percentageChange: UILabel!
     
     var viewModel: CoinListCellViewModel? {
         didSet {
@@ -25,9 +26,10 @@ class CoinListCell: BaseCollectionViewCell {
     }
     
     private func setupBindings() {
-        nameLabel.rac_text <~ viewModel!.name
-        currentPriceLabel.rac_text <~ viewModel!.currentPrice
-        percentageChange.rac_text <~ viewModel!.percentageChange
+        nameLabel.rac_text <~ self.viewModel!.name
+        symbolLabel.rac_text <~ self.viewModel!.symbol
+        currentPriceLabel.rac_text <~ self.viewModel!.currentPrice
+        percentageChange.rac_text <~ self.viewModel!.percentageChange
     }
     
 }
