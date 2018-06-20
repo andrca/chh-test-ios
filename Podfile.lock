@@ -12,6 +12,8 @@ PODS:
   - RealmSwift (3.7.3):
     - Realm (= 3.7.3)
   - Result (3.2.4)
+  - SnapKit (4.0.0)
+  - SwiftChart (1.0.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
@@ -20,6 +22,8 @@ DEPENDENCIES:
   - ObjectMapper (~> 3.2)
   - ReactiveSwift (~> 3.0)
   - RealmSwift
+  - SnapKit (~> 4.0.0)
+  - SwiftChart
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -31,6 +35,8 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - Result
+    - SnapKit
+    - SwiftChart
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
@@ -41,7 +47,9 @@ SPEC CHECKSUMS:
   Realm: f366e954e3330d4915a319e96cc04e2ee09a9ef2
   RealmSwift: 56f111b1dd439973fbe1c066b067ac4702285441
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SwiftChart: ba767a678d568a5ee22d419e146a0582865e1aff
 
-PODFILE CHECKSUM: 8804164a690c20f61017da236189e7fde17df0fb
+PODFILE CHECKSUM: 8593da3b6368f7ff6c7840a3427a8a536174541d
 
 COCOAPODS: 1.5.3

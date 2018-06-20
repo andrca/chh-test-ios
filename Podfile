@@ -11,8 +11,11 @@ target 'chh-test-ios' do
   pod 'BrightFutures', '~> 6.0'
   pod 'ReactiveSwift', '~> 3.0'
   pod 'RealmSwift'
-  pod 'KeychainSwift',          '~> 7.0'
+  pod 'KeychainSwift', '~> 7.0'
   pod 'ObjectMapper', '~> 3.2'
+  pod 'SwiftChart'
+  pod 'SnapKit', '~> 4.0.0'
+
 
   # Pods for chh-test-ios
 
