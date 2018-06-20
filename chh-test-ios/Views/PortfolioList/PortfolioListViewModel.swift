@@ -8,7 +8,6 @@
 
 import Foundation
 import ReactiveSwift
-import RealmSwift
 
 class PortfolioListViewModel: UIRefresherProtocol {
     
@@ -37,13 +36,13 @@ class PortfolioListViewModel: UIRefresherProtocol {
     }
     
     func groupedTradeAt(_ indexPath: IndexPath) -> GroupedTrades? {
-        guard let trade = groupedTradesList.value[indexPath.row] as GroupedTrades? else {
+        guard let gTrades = groupedTradesList.value[indexPath.row] as GroupedTrades? else {
             print("[\(type(of: self))] \(#function) Out range (\(indexPath.row)) of coin with \(self.groupedTradesList.value.count) element/s")
             
             return nil
         }
         
-        return trade
+        return gTrades
     }
     
     func refreshData() {
