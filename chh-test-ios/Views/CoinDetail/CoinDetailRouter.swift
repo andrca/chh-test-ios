@@ -7,3 +7,13 @@
 //
 
 import Foundation
+
+class CoinDetailRouter {
+    
+    let container: Navigator
+    
+    init(container: Navigator) {
+        self.container = container
+    }
+    
+}
