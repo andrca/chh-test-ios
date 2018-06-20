@@ -12,9 +12,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let dataManager = DataManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
+        
+        basicAuth()
+        
         let rootWireframe = RootWireframe()
         window?.rootViewController = rootWireframe.navigationController
         window?.makeKeyAndVisible()
@@ -43,5 +47,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    private func basicAuth() {
+        let username = "richard@rich.com"
+        let password = "secret"
+        let loginString = String(format: "%@:%@", username, password)
+        let loginData = loginString.data(using: String.Encoding.utf8)!
+        let base64LoginString = loginData.base64EncodedString()
+        dataManager.setSecure("Basic \(base64LoginString)", forKey: .authentication)
+    }
 
 }
