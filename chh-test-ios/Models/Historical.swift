@@ -35,9 +35,6 @@ class Historical: Object, Mappable {
 
 class JSONStringToDoubleTransform: TransformType {
     
-    typealias Object = Double
-    typealias JSON = String
-    
     init() {}
     func transformFromJSON(_ value: Any?) -> Double? {
         if let strValue = value as? String {
