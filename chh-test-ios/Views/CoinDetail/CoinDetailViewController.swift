@@ -26,7 +26,7 @@ class CoinDetailViewController: UIViewController, ChartDelegate {
     @IBOutlet private weak var chartView: UIView!
     
     private let chart = Chart(frame: .zero)
-    private let alertController = UIAlertController(title: "Add New Trade", message: "", preferredStyle: .alert)
+    private let addTradeAlertController = UIAlertController(title: "Add New Trade", message: "", preferredStyle: .alert)
     private var tradedAtDate = Date()
     
     // MARK: Lifecycle
@@ -45,37 +45,21 @@ class CoinDetailViewController: UIViewController, ChartDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupStyles()
         setupChart()
+        setupAddTradeAlertController()
         setupNavigationBar()
         setupBindings()
     }
     
     // MARK: Private methods
     
-    private func setupStyles() {}
-    
-    private func setupChart() {
-        chart.delegate = self
-        chart.yLabelsFormatter = { "$" + String(Int($1)) }
-        chartView.addSubview(chart)
-        chart.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-    
-    private func setupNavigationBar() {
-        self.title = "Coin detail"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(newTradeTapped))
-    }
-    
-    @objc private func newTradeTapped() {
-        alertController.addAction(UIAlertAction(title: "Add", style: .default, handler: {
+    private func setupAddTradeAlertController() {
+        addTradeAlertController.addAction(UIAlertAction(title: "Add", style: .default, handler: {
             alert -> Void in
-            let amountField = self.alertController.textFields![0] as UITextField
-            let priceUsdField = self.alertController.textFields![1] as UITextField
-            let tradedAtField = self.alertController.textFields![2] as UITextField
-            let notesField = self.alertController.textFields![3] as UITextField
+            let amountField = self.addTradeAlertController.textFields![0] as UITextField
+            let priceUsdField = self.addTradeAlertController.textFields![1] as UITextField
+            let tradedAtField = self.addTradeAlertController.textFields![2] as UITextField
+            let notesField = self.addTradeAlertController.textFields![3] as UITextField
             
             if amountField.text != "", priceUsdField.text != "", tradedAtField.text != "" {
                 guard let amount = Float(amountField.text!),
@@ -93,25 +77,27 @@ class CoinDetailViewController: UIViewController, ChartDelegate {
                 let errorAlert = UIAlertController(title: "Error", message: "Empty values", preferredStyle: .alert)
                 errorAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {
                     alert -> Void in
-                    self.present(self.alertController, animated: true, completion: nil)
+                    self.present(self.addTradeAlertController, animated: true, completion: nil)
                 }))
                 self.present(errorAlert, animated: true, completion: nil)
             }
         }))
         
-        alertController.addTextField(configurationHandler: { (textField) -> Void in
+        addTradeAlertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel))
+        
+        addTradeAlertController.addTextField(configurationHandler: { (textField) -> Void in
             textField.placeholder = "Amount"
             textField.textAlignment = .center
             textField.keyboardType = .decimalPad
         })
         
-        alertController.addTextField(configurationHandler: { (textField) -> Void in
+        addTradeAlertController.addTextField(configurationHandler: { (textField) -> Void in
             textField.placeholder = "Price USD"
             textField.textAlignment = .center
             textField.keyboardType = .decimalPad
         })
         
-        alertController.addTextField(configurationHandler: { (textField) -> Void in
+        addTradeAlertController.addTextField(configurationHandler: { (textField) -> Void in
             textField.placeholder = "Traded At"
             textField.textAlignment = .center
             
@@ -121,19 +107,40 @@ class CoinDetailViewController: UIViewController, ChartDelegate {
             datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
         })
         
-        alertController.addTextField(configurationHandler: { (textField) -> Void in
+        addTradeAlertController.addTextField(configurationHandler: { (textField) -> Void in
             textField.placeholder = "Notes"
             textField.textAlignment = .center
         })
-        
-        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func setupChart() {
+        chart.delegate = self
+        chart.yLabelsFormatter = { "$" + String(Int($1)) }
+        chartView.addSubview(chart)
+        chart.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    private func setupNavigationBar() {
+        self.title = "Coin detail"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Add",
+            style: .plain,
+            target: self,
+            action: #selector(newTradeTapped))
+    }
+    
+    @objc private func newTradeTapped() {
+        self.addTradeAlertController.textFields!.forEach { $0.text = "" }
+        self.present(addTradeAlertController, animated: true, completion: nil)
     }
     
     @objc private func datePickerValueChanged(sender: UIDatePicker) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.medium
         dateFormatter.timeStyle = DateFormatter.Style.none
-        let dateTextField = self.alertController.textFields![2] as UITextField
+        let dateTextField = self.addTradeAlertController.textFields![2] as UITextField
         tradedAtDate = sender.date
         dateTextField.text = dateFormatter.string(from: sender.date)
     }
@@ -161,7 +168,6 @@ class CoinDetailViewController: UIViewController, ChartDelegate {
 
 extension CoinDetailViewController {
     
-    // Chart delegate
     func didTouchChart(_ chart: Chart, indexes: Array<Int?>, x: Double, left: CGFloat) {}
     
     func didFinishTouchingChart(_ chart: Chart) {}
